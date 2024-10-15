@@ -1,9 +1,8 @@
+from core import abstract_models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_cleanup.cleanup import cleanup_select
-
-from core import abstract_models
 
 
 @cleanup_select

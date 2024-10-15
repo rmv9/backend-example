@@ -5,7 +5,6 @@ from fpdf import FPDF
 
 from foodgram.settings import BASE_DIR
 
-
 FONTS_DIR = BASE_DIR / 'data/fonts'
 LOGO = BASE_DIR / 'data/logo.png'
 

@@ -1,12 +1,8 @@
 import string
 from random import choice, randint
 
+from core.constants import MAX_HASH, MAX_HASH_LEN, MIN_HASH, URL_LEN
 from django.db import models
-
-from core.constants import (
-    MAX_HASH, MAX_HASH_LEN,
-    MIN_HASH, URL_LEN,
-)
 
 
 def gen_hash() -> str:

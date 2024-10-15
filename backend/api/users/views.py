@@ -4,11 +4,10 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from users.models import Subscriber
+
 from ..paginations import FoodgramPagination
 from .serializers import AvatarSerializer, SubscribeSerializer
-
 
 User = get_user_model()
 
