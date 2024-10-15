@@ -1,0 +1,22 @@
+<section>
+    <table align="left" width="100%">
+        <thead>
+        <tr>
+            <th width="6%">№</th>
+            <th width="77%">Ингредиенты</th>
+            <th width="2%"></th>
+            <th width="15%">кол-во</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ingredient in ingredients %}
+            <tr>
+                <td>{{ forloop.counter }}.</td>
+                <td align="right">{{ ingredient.name }}</td>
+                <td></td>
+                <td>{{ ingredient.count }} {{ ingredient.unit }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
