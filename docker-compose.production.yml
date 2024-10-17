@@ -26,10 +26,12 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - staticfiles:/frontend_static
+    env_file: .env
 
   nginx:
     container_name: foodgram-proxy
     image: rmv9/foodgram_nginx
+    env_file: .env
     ports:
       - "8000:80"
     volumes:

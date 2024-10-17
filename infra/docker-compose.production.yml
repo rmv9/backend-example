@@ -10,6 +10,7 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+    restart: always
 
   backend:
     container_name: foodgram-back
@@ -20,6 +21,7 @@ services:
     env_file: .env
     depends_on:
       - db
+    restart: always
 
   frontend:
     container_name: foodgram-front
@@ -39,3 +41,4 @@ services:
     depends_on:
       - frontend
       - backend
+    restart: always
