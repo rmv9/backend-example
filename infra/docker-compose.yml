@@ -31,7 +31,6 @@ services:
     build: .
     ports:
       - "8000:80"
-    
     volumes:
       - staticfiles:/staticfiles/
       - mediafiles:/media/
