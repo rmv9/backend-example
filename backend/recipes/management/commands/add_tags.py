@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 ).exists():
                     self.stdout.write(
                         self.style.ERROR(
-                            f'{row[0]!r} already exist!'
+                            f'{row[0]!r} exist!'
                         )
                     )
                     continue
@@ -26,5 +26,5 @@ class Command(BaseCommand):
                     slug=row[1]
                 )
                 self.stdout.write(
-                    self.style.SUCCESS(f'Added: {row[0]!r}')
+                    self.style.SUCCESS(f'Add: {row[0]!r}')
                 )

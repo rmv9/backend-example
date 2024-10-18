@@ -21,9 +21,9 @@ class Command(BaseCommand):
                     for row in csv.reader(file)
                 )
                 self.stdout.write(
-                    self.style.SUCCESS('Done')
+                    self.style.SUCCESS('Ingredients applied')
                 )
             except IntegrityError:
                 self.stdout.write(
-                    self.style.ERROR('Failed')
+                    self.style.ERROR('Ingredients exists')
                 )
