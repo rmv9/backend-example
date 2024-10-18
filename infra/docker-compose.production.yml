@@ -32,7 +32,7 @@ services:
     container_name: foodgram-proxy
     image: rmv9/foodgram_nginx
     ports:
-      - "80:80"
+      - "8000:80"
     volumes:
       - staticfiles:/staticfiles/
       - mediafiles:/media/
