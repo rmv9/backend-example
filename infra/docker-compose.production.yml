@@ -4,6 +4,7 @@ volumes:
   pg_data:
 
 services:
+  
   db:
     container_name: foodgram-db
     image: postgres:13.10-alpine
