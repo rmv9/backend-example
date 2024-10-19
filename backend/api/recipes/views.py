@@ -116,7 +116,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_name='shopping-cart',
     )
     def shopping_cart(self, request, pk=None):
-        """Добавление рецепта в список покупок."""
+        """Recipes -> shoppingcart."""
         objects_count = models.Recipe.objects.filter(pk=pk).count()
         if not objects_count:
             return get_object_or_404(models.Recipe, pk=pk)
@@ -124,7 +124,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk=None):
-        """Удаление рецепта из списка покупок."""
+        """Del recipes."""
         return self._delete_author_recipe(request, pk, models.ShoppingCart)
 
     @action(
@@ -132,7 +132,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         detail=True,
     )
     def favorite(self, request, pk=None):
-        """Добавление рецепта в избранное."""
+        """Recipes -> fav."""
         objects_count = models.Recipe.objects.filter(pk=pk).count()
         if not objects_count:
             return get_object_or_404(models.Recipe, pk=pk)
@@ -140,7 +140,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk=None):
-        """Удаление рецепта из избранного."""
+        """Recipes del from fav."""
         return self._delete_author_recipe(request, pk, models.FavoriteRecipe)
 
     @action(
@@ -150,7 +150,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_name='get-link',
     )
     def get_link(self, request, pk=None):
-        """Получение короткой ссылки на рецепт"""
+        """Recipe short link."""
         self.get_object()
         original_url = request.META.get('HTTP_REFERER')
         if original_url is None:
@@ -166,14 +166,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def _post_author_recipe(self, request, pk):
-        """Добавление рецепта с автором"""
+        """Add author/recipes."""
         serializer = self.get_serializer(data=dict(recipe=pk))
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def _delete_author_recipe(self, request, pk, model):
-        """Добавление или удаление рецепта с автором"""
+        """Del author/recipes."""
         recipe = get_object_or_404(models.Recipe, pk=pk)
         obj_count, _ = model.objects.filter(
             author=self.request.user,

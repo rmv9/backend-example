@@ -5,7 +5,7 @@ from rest_framework import fields
 
 
 class Base64ImageField(fields.ImageField):
-    """Поле для декодировки изображений"""
+    """Decode images field."""
 
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):

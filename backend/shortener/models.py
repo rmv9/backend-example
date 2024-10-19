@@ -5,8 +5,8 @@ from core.constants import MAX_HASH, MAX_HASH_LEN, MIN_HASH, URL_LEN
 from django.db import models
 
 
-def gen_hash() -> str:
-    """Random str generator"""
+def generate_hash() -> str:
+    """Random str generator."""
 
     return ''.join(
         choice(string.ascii_letters + string.digits)
@@ -15,11 +15,11 @@ def gen_hash() -> str:
 
 
 class LinkMapped(models.Model):
-    """Short links model"""
+    """Short links model."""
 
     url_hash = models.CharField(
         max_length=MAX_HASH_LEN,
-        default=gen_hash,
+        default=generate_hash,
         unique=True
     )
     original_url = models.CharField(max_length=URL_LEN)

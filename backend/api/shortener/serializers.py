@@ -4,7 +4,7 @@ from shortener.models import LinkMapped
 
 
 class ShortenerSerializer(serializers.ModelSerializer):
-    """Pass"""
+    """Get short-link serializer."""
 
     class Meta:
         model = LinkMapped
@@ -22,4 +22,6 @@ class ShortenerSerializer(serializers.ModelSerializer):
         return instance
 
     def to_representation(self, instance):
-        return {'short-link': self.get_short_link(instance)}
+        return {
+            'short-link': self.get_short_link(instance)
+        }

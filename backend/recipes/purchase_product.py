@@ -11,10 +11,7 @@ LOGO = BASE_DIR / 'data/logo.png'
 
 class PDF(FPDF):
     """
-    Шаблон создания PDF списка покупок
-
-    >>> pdf = PDF()
-    >>> pdf.get_pdf(html_text=None)
+    Create pattern for PDF
     """
 
     def __init__(self, *args, **kwargs):
