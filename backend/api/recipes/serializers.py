@@ -5,6 +5,7 @@ from recipes.models import (FavoriteRecipe, Ingredient, Recipe,
                             RecipeIngredient, ShoppingCart, Tag)
 from rest_framework import serializers
 
+
 class TagSerializer(serializers.ModelSerializer):
     """Сериалайзер Тегов"""
 
