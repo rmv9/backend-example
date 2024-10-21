@@ -20,7 +20,7 @@ from . import serializers
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
-    """Tag views"""
+    """Вьюсет Тегов"""
 
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer
@@ -28,7 +28,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-    """Ingr views"""
+    """Вьюсет Ингредиентов"""
 
     queryset = models.Ingredient.objects.all()
     serializer_class = serializers.IngredientSerializer
@@ -38,7 +38,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    """Recipes views"""
+    """Вьюсет Рецептов"""
 
     http_method_names = ['get', 'post', 'patch', 'delete']
     pagination_class = FoodgramPagination
@@ -94,7 +94,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_name='download',
     )
     def download_shopping_cart(self, request):
-        """PDF shopping-list maker"""
+        """Подготавливает и возвращает файл со списком покупок"""
         recipes = request.user.shopping_cart.values_list(
             'recipe__name', flat=True
         ).order_by('recipe__name')
@@ -107,7 +107,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return FileResponse(
             BytesIO(pdf_file),
             as_attachment=True,
-            filename='shopping_list.pdf',
+            filename='foodgram_shopping_list.pdf',
         )
 
     @action(
@@ -116,15 +116,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_name='shopping-cart',
     )
     def shopping_cart(self, request, pk=None):
-        """Recipes -> shoppingcart."""
-        objects_count = models.Recipe.objects.filter(pk=pk).count()
-        if not objects_count:
-            return get_object_or_404(models.Recipe, pk=pk)
+        """Добавление рецепта в список покупок."""
         return self._post_author_recipe(request, pk)
 
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk=None):
-        """Del recipes."""
+        """Удаление рецепта из списка покупок."""
         return self._delete_author_recipe(request, pk, models.ShoppingCart)
 
     @action(
@@ -132,15 +129,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         detail=True,
     )
     def favorite(self, request, pk=None):
-        """Recipes -> fav."""
-        objects_count = models.Recipe.objects.filter(pk=pk).count()
-        if not objects_count:
-            return get_object_or_404(models.Recipe, pk=pk)
+        """Добавление рецепта в избранное."""
         return self._post_author_recipe(request, pk)
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk=None):
-        """Recipes del from fav."""
+        """Удаление рецепта из избранного."""
         return self._delete_author_recipe(request, pk, models.FavoriteRecipe)
 
     @action(
@@ -150,7 +144,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_name='get-link',
     )
     def get_link(self, request, pk=None):
-        """Recipe short link."""
+        """Получение короткой ссылки на рецепт"""
         self.get_object()
         original_url = request.META.get('HTTP_REFERER')
         if original_url is None:
@@ -166,14 +160,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def _post_author_recipe(self, request, pk):
-        """Add author/recipes."""
+        """Добавление рецепта с автором"""
         serializer = self.get_serializer(data=dict(recipe=pk))
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def _delete_author_recipe(self, request, pk, model):
-        """Del author/recipes."""
+        """Добавление или удаление рецепта с автором"""
         recipe = get_object_or_404(models.Recipe, pk=pk)
         obj_count, _ = model.objects.filter(
             author=self.request.user,
