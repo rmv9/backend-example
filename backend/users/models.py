@@ -7,7 +7,7 @@ from django_cleanup.cleanup import cleanup_select
 
 @cleanup_select
 class User(AbstractUser):
-    """Модель пользователя"""
+    """User model."""
 
     email = models.EmailField(unique=True)
     first_name = models.CharField(_("first name"), max_length=150)
@@ -21,7 +21,7 @@ class User(AbstractUser):
 
 
 class Subscriber(abstract_models.AuthorModel):
-    """Модель Подписок"""
+    """Subs model."""
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='subscriber'
