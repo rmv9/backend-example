@@ -1,9 +1,12 @@
-from core import abstract_models
-from core.constants import (INGR_MAX, INGR_MIN, INGR_NAME_MAX, MIN_COOKING_TM,
-                            REC_NAME_MAX, TAG_MAX, VALUE_MAX)
+from core.constants import (
+    INGR_MAX, INGR_MIN, INGR_NAME_MAX, MIN_COOKING_TM, REC_NAME_MAX, TAG_MAX,
+    VALUE_MAX,
+)
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django_cleanup.cleanup import cleanup_select
+
+from core import abstract_models
 
 
 class Tag(models.Model):
@@ -23,6 +26,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -136,20 +140,6 @@ class RecipeIngredient(models.Model):
         ],
     )
 
-    class Meta:
-        default_related_name = 'recipe_ingredients'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['ingredient', 'recipe'],
-                name='unique ingredient'
-            )
-        ]
-        verbose_name = 'Ингредиент'
-        verbose_name_plural = 'Ингредиенты'
-
-    def __str__(self):
-        return f'{self.ingredient} - {self.amount}'
-
     @classmethod
     def get_shopping_ingredients(cls, user):
         """
@@ -175,6 +165,20 @@ class RecipeIngredient(models.Model):
             .order_by('ingredient__name')
         )
 
+    class Meta:
+        default_related_name = 'recipe_ingredients'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['ingredient', 'recipe'],
+                name='unique ingredient'
+            )
+        ]
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
+
+    def __str__(self):
+        return f'{self.ingredient} - {self.amount}'
+
 
 class FavoriteRecipe(abstract_models.AuthorRecipeModel):
     """Fav recipes model"""
@@ -195,7 +199,7 @@ class FavoriteRecipe(abstract_models.AuthorRecipeModel):
 
 
 class ShoppingCart(abstract_models.AuthorRecipeModel):
-    """Shoppingcart model"""
+    """Shoppingcart model."""
 
     class Meta:
         default_related_name = 'shopping_cart'

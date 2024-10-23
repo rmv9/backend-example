@@ -2,13 +2,14 @@ from django.contrib.auth import get_user_model
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+
 from users.models import Subscriber
 
 User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Сериализатор пользователя"""
+    """User serializer."""
 
     is_subscribed = serializers.SerializerMethodField()
 
@@ -25,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def get_is_subscribed(self, obj):
-        current_user = self.context.get('request').user
+        current_user = self.context['request'].user
         if hasattr(obj, 'subs'):
             return bool(obj.subs and obj.subs[0].is_subscribed)
         return (
@@ -36,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AvatarSerializer(serializers.ModelSerializer):
-    """Сериализатор аватарки"""
+    """Avatar serializer."""
 
     avatar = Base64ImageField(allow_null=True)
 
@@ -46,7 +47,7 @@ class AvatarSerializer(serializers.ModelSerializer):
 
 
 class UserRecipeSerializer(UserSerializer):
-    """Сериплизатор представления рецептов пользователя"""
+    """User recipes serializer."""
 
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.IntegerField(
@@ -83,7 +84,7 @@ class UserRecipeSerializer(UserSerializer):
 
 
 class SubscribeSerializer(serializers.ModelSerializer):
-    """Сериализатор подписок"""
+    """Subs serializer."""
 
     user = serializers.SlugRelatedField(
         read_only=True,

@@ -1,6 +1,6 @@
-from core.constants import PAGE_SIZE
 from rest_framework.pagination import PageNumberPagination
 
+from core.constants import PAGE_SIZE
 
 class FoodgramPagination(PageNumberPagination):
     """Project pagination"""

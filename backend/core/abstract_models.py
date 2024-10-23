@@ -14,6 +14,9 @@ class AuthorModel(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return f'{self.author.username!r}'
+
 
 class AuthorRecipeModel(AuthorModel):
     """Recipe abstr"""

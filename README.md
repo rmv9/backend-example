@@ -5,9 +5,9 @@
 
 Админ-зона: http://89.169.171.110/admin/
 
-login - admin
-password - admin
-mail - admin@admin.com 
+login - admin  
+password - admin  
+mail - admin@admin.com  
 
 
 ## Описание

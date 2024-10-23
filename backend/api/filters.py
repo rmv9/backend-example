@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
-from django_filters.rest_framework import (BooleanFilter, CharFilter,
-                                           FilterSet,
-                                           ModelMultipleChoiceFilter)
+from django_filters.rest_framework import (
+    BooleanFilter, CharFilter, FilterSet, ModelMultipleChoiceFilter,
+)
+
 from recipes.models import Ingredient, Recipe, Tag
 
 User = get_user_model()
@@ -17,14 +18,6 @@ class IngredientFilterSet(FilterSet):
     class Meta:
         model = Ingredient
         fields = ('name',)
-        # filter_overrides = {
-        #     models.CharField: {
-        #         'filter_class': django_filters.CharFilter,
-        #         'extra': {
-        #             'lookup_expr': 'icontains',
-        #         },
-        #     },
-        # }
 
 
 class RecipeFilterSet(FilterSet):
