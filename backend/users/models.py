@@ -33,7 +33,7 @@ class Subscriber(abstract_models.AuthorModel):
     """Subs model."""
 
     user = models.ForeignKey(
-        User, 
+        User,
         on_delete=models.CASCADE,
         related_name='subscriber'
     )

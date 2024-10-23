@@ -58,8 +58,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             self.action, serializers.RecipeCreateSerializer
         )
 
-        
-
     def get_queryset(self):
         user = self.request.user
         qs = models.Recipe.objects
@@ -78,8 +76,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     is_favorited=Exists(
                         models.FavoriteRecipe.objects.filter(
                             author=user.id,
-                            recipe=OuterRef('pk'
-                        )
+                            recipe=OuterRef('pk')
                         )
                     ),
                     is_in_shopping_cart=Exists(

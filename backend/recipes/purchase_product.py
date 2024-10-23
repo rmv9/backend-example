@@ -51,7 +51,7 @@ class PDF(FPDF):
             CL_TXT['r'], CL_TXT['g'], CL_TXT['b']
         )
         self.set_fill_color(
-            CL_SET_FILL['r'],  CL_SET_FILL['g'], CL_SET_FILL['b']
+            CL_SET_FILL['r'], CL_SET_FILL['g'], CL_SET_FILL['b']
         )
         self.rect(
             REC_PARAMS['x'], REC_PARAMS['y'], REC_PARAMS['w'], REC_PARAMS['h'],
