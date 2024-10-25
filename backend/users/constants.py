@@ -1,1 +1,2 @@
 SHORT_NM = 10
+NAMES_MAX = 150

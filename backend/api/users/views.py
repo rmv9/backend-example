@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from users.models import Subscriber
 
+from users.models import Subscriber
 from ..paginations import FoodgramPagination
 from .serializers import AvatarSerializer, SubscribeSerializer
 
@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class UserViewSet(djoser_views.UserViewSet):
-    """Вьюсет Пользователей"""
+    """User viewset."""
 
     pagination_class = FoodgramPagination
 
@@ -55,7 +55,7 @@ class UserViewSet(djoser_views.UserViewSet):
         url_name='me',
     )
     def me(self, request, *args, **kwargs):
-        """Данные о себе"""
+        """Self-data."""
         return super().me(request, *args, **kwargs)
 
     @action(
@@ -66,7 +66,7 @@ class UserViewSet(djoser_views.UserViewSet):
         url_name='me-avatar',
     )
     def avatar(self, request):
-        """Добавление или удаление аватара"""
+        """Add-del avatars."""
         serializer = self._change_avatar(request.data)
         return Response(serializer.data)
 
@@ -86,7 +86,7 @@ class UserViewSet(djoser_views.UserViewSet):
         url_name='subscriptions',
     )
     def subscriptions(self, request):
-        """Список подписок"""
+        """Subs list."""
         page = self.paginate_queryset(self.get_queryset())
         serializer = SubscribeSerializer(
             page, many=True, context={'request': request}
@@ -101,7 +101,7 @@ class UserViewSet(djoser_views.UserViewSet):
         url_name='subscribe',
     )
     def subscribe(self, request, id):
-        """Подписка или отписка пользователя"""
+        """Users sub/unsub."""
         serializer = SubscribeSerializer(
             data={'author': self.get_object()},
             context={'request': request},
@@ -116,7 +116,7 @@ class UserViewSet(djoser_views.UserViewSet):
             author=self.get_object(), user=request.user
         ).delete()
 
-        if subscriber_deleted == 0:
+        if not subscriber_deleted:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
 

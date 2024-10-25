@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django_cleanup.cleanup import cleanup_select
 
 from core import abstract_models
-from users.constants import SHORT_NM
+from users.constants import SHORT_NM, NAMES_MAX
 
 
 @cleanup_select
@@ -12,8 +12,8 @@ class User(AbstractUser):
     """User model."""
 
     email = models.EmailField(unique=True)
-    first_name = models.CharField(_("first name"), max_length=150)
-    last_name = models.CharField(_("last name"), max_length=150)
+    first_name = models.CharField(_("first name"), max_length=NAMES_MAX)
+    last_name = models.CharField(_("last name"), max_length=NAMES_MAX)
     avatar = models.ImageField(
         'Аватар', upload_to='avatars/', blank=True, null=True
     )
@@ -59,7 +59,8 @@ class Subscriber(abstract_models.AuthorModel):
         verbose_name_plural = 'Подписки'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'], name='unique_subscriber'
+                fields=['user', 'author'],
+                name='unique_subscriber'
             ),
             models.CheckConstraint(
                 check=~models.Q(user=models.F('author')),

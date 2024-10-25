@@ -1,13 +1,13 @@
-from core.constants import (
-    INGR_MAX, INGR_MIN, INGR_NAME_MAX, MIN_COOKING_TM, REC_NAME_MAX, TAG_MAX,
-    VALUE_MAX,
-)
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django_cleanup.cleanup import cleanup_select
 
 from core import abstract_models
-
+from core.constants import (
+    INGR_MAX, INGR_MIN, INGR_NAME_MAX,
+    MIN_COOKING_TM, REC_NAME_MAX, TAG_MAX,
+    VALUE_MAX,
+)
 
 class Tag(models.Model):
     """Tag model"""

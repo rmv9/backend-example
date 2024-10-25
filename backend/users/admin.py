@@ -8,7 +8,7 @@ from .models import Subscriber, User
 
 @admin.register(User)
 class UsersAdmin(UserAdmin):
-    """Админка для пользователя"""
+    """User admin site."""
 
     list_display = ('id', 'full_name', 'username', 'email', 'is_staff')
     search_fields = ('username', 'email')
@@ -17,7 +17,7 @@ class UsersAdmin(UserAdmin):
 
     @admin.display(description='Имя фамилия')
     def full_name(self, obj):
-        """Получение полного имени"""
+        """Get full name."""
         return obj.get_full_name()
 
 

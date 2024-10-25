@@ -1,15 +1,15 @@
-from core.constants import INGR_MIN
 from django.contrib import admin
 from django.utils.html import format_html
 
+from core.constants import INGR_MIN
 from .models import (
-    FavoriteRecipe, Ingredient, Recipe, RecipeIngredient, ShoppingCart, Tag,
+    FavoriteRecipe, Ingredient, Recipe,
+    RecipeIngredient, ShoppingCart, Tag,
 )
 
 hlp_txt = {
     'search_rec_user': 'Поиск по названию или `username` автора',
     'search_ing_name': 'Поиск по ингредиенту',
-    # 'search_ing_unit': 'Поиск по ед измерения',
 }
 
 
