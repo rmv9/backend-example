@@ -9,6 +9,7 @@ from core.constants import (
     VALUE_MAX,
 )
 
+
 class Tag(models.Model):
     """Tag model"""
 
