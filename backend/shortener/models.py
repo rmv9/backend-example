@@ -6,7 +6,7 @@ from django.db import models
 from core.constants import MAX_HASH, MAX_HASH_LEN, MIN_HASH, URL_LEN
 
 
-def generate_hash() -> str:
+def gen_hash() -> str:
     """Random str generator."""
 
     return ''.join(
@@ -20,13 +20,12 @@ class LinkMapped(models.Model):
 
     url_hash = models.CharField(
         max_length=MAX_HASH_LEN,
-        default=generate_hash,
+        default=gen_hash,
         unique=True
     )
     original_url = models.CharField(max_length=URL_LEN)
 
     class Meta:
-        default_related_name = 'links'
         verbose_name = 'Ссылка'
         verbose_name_plural = 'Ссылки'
 

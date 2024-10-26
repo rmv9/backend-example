@@ -141,6 +141,20 @@ class RecipeIngredient(models.Model):
         ],
     )
 
+    class Meta:
+        default_related_name = 'recipe_ingredients'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['ingredient', 'recipe'],
+                name='unique ingredient'
+            )
+        ]
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
+
+    def __str__(self):
+        return f'{self.ingredient} - {self.amount}'
+
     @classmethod
     def get_shopping_ingredients(cls, user):
         """
@@ -165,20 +179,6 @@ class RecipeIngredient(models.Model):
             )
             .order_by('ingredient__name')
         )
-
-    class Meta:
-        default_related_name = 'recipe_ingredients'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['ingredient', 'recipe'],
-                name='unique ingredient'
-            )
-        ]
-        verbose_name = 'Ингредиент'
-        verbose_name_plural = 'Ингредиенты'
-
-    def __str__(self):
-        return f'{self.ingredient} - {self.amount}'
 
 
 class FavoriteRecipe(abstract_models.AuthorRecipeModel):

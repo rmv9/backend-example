@@ -22,21 +22,32 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-
-    def __str__(self):
-        return self.username[SHORT_NM]
+        pass
 
 
 class Subscriber(abstract_models.AuthorModel):
     """Subs model."""
 
     user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='subscriber'
+        User, on_delete=models.CASCADE, related_name='subscriber'
     )
+
+    class Meta:
+        default_related_name = 'subscribers'
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'], name='unique_subscriber'
+            ),
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('author')),
+                name='unique_subscriber_himself',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user.username!r} подписан на {self.author.username!r}'
 
     @classmethod
     def get_prefetch_subscribers(cls, lookup, user):
@@ -52,21 +63,3 @@ class Subscriber(abstract_models.AuthorModel):
             ),
             to_attr='subs',
         )
-
-    class Meta:
-        default_related_name = 'subscribers'
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'author'],
-                name='unique_subscriber'
-            ),
-            models.CheckConstraint(
-                check=~models.Q(user=models.F('author')),
-                name='unique_subscriber_himself',
-            ),
-        ]
-
-    def __str__(self):
-        return f'{self.user.username!r} подписан на {self.author.username!r}'

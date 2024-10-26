@@ -6,6 +6,7 @@ from api.constants import (
     MAX_INTEGER, MAX_VALUE_MSG, MIN_INTEGER, MIN_VALUE_MSG
 )
 from api.users.serializers import UserSerializer
+from api.shortener.serializers import ShortRecipeSerializer
 from recipes.models import (
     FavoriteRecipe, Ingredient, Recipe, RecipeIngredient, ShoppingCart, Tag,
 )
@@ -30,8 +31,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 class IngredientGetSerializer(serializers.ModelSerializer):
     """Ingredient -> recipe serializer."""
 
-    id = serializers.IntegerField(source='ingredient.id')
-    name = serializers.CharField(source='ingredient.name')
+    id = serializers.IntegerField(
+        source='ingredient.id'
+    )
+    name = serializers.CharField(
+        source='ingredient.name'
+    )
     measurement_unit = serializers.CharField(
         source='ingredient.measurement_unit'
     )
@@ -39,6 +44,26 @@ class IngredientGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeIngredient
         fields = ('id', 'name', 'measurement_unit', 'amount')
+
+
+class RecipeIngredientSerializer(serializers.ModelSerializer):
+    """Short ingredient serializer."""
+
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=Ingredient.objects.all(), source='ingredient'
+    )
+
+    amount = serializers.IntegerField(
+        min_value=MIN_INTEGER,
+        max_value=MAX_INTEGER,
+        error_messages={
+            'min_value': MIN_VALUE_MSG,
+            'max_value': MAX_VALUE_MSG,
+        })
+
+    class Meta:
+        model = RecipeIngredient
+        fields = ('id', 'amount')
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -71,34 +96,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
 
 
-class RecipeIngredientSerializer(serializers.ModelSerializer):
-    """Short ingredient serializer."""
-
-    id = serializers.PrimaryKeyRelatedField(
-        queryset=Ingredient.objects.all(), source='ingredient'
-    )
-
-    amount = serializers.IntegerField(
-        min_value=MIN_INTEGER,
-        max_value=MAX_INTEGER,
-        error_messages={
-            'min_value': MIN_VALUE_MSG,
-            'max_value': MAX_VALUE_MSG,
-        })
-
-    class Meta:
-        model = RecipeIngredient
-        fields = ('id', 'amount')
-
-
 class RecipeCreateSerializer(serializers.ModelSerializer):
     """Recipes create serializer."""
 
     tags = serializers.PrimaryKeyRelatedField(
-        queryset=Tag.objects.all(), many=True
+        queryset=Tag.objects.all(),
+        many=True
     )
     ingredients = RecipeIngredientSerializer(
-        many=True, source='recipe_ingredients'
+        many=True,
+        source='recipe_ingredients'
     )
     image = Base64ImageField()
 
@@ -131,14 +138,14 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         tags = attrs.get('tags', [])
-        if not tags:
+        if not len(tags):
             raise serializers.ValidationError('Выберите хотя бы 1 тэг.')
 
         if len(set(tags)) != len(tags):
             raise serializers.ValidationError('Теги должны быть уникальные.')
 
         ingredients = attrs.get('recipe_ingredients', [])
-        if not ingredients:
+        if not len(ingredients):
             raise serializers.ValidationError('Добавьте хотя бы 1 ингредиент.')
 
         id_ingredients = {
@@ -190,20 +197,15 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         return RecipeSerializer(instance, context=self.context).data
 
 
-class ShortRecipeSerializer(serializers.ModelSerializer):
-    """Short data in recipes serializer."""
-
-    class Meta:
-        model = Recipe
-        fields = ('id', 'name', 'image', 'cooking_time')
-
-
 class AuthorRecipeSerializer(serializers.ModelSerializer):
-    """Recipe/author model serializer."""
+    """Recipe/author model base-serializer."""
 
     _recipe_added_to: str = None
 
     class Meta:
+        # переопреляется в наследниках
+        # FavoriteSerializer(AuthorRecipeSerializer)
+        # ShoppingCartSerializer(AuthorRecipeSerializer)
         model = None
         fields = ('author', 'recipe')
         read_only_fields = ('author',)
@@ -211,6 +213,8 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         recipe = attrs['recipe']
         user = self.context['request'].user
+
+        # Метод использует переопределенную модель. 
         if self.Meta.model.objects.filter(author=user, recipe=recipe).exists():
             raise serializers.ValidationError(
                 f'Рецепт уже добавлен в {self._recipe_added_to}'
@@ -229,6 +233,7 @@ class FavoriteSerializer(AuthorRecipeSerializer):
     _recipe_added_to = 'избранное'
 
     class Meta(AuthorRecipeSerializer.Meta):
+        # переопределенная модель.
         model = FavoriteRecipe
 
 

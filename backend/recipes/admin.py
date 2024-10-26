@@ -54,7 +54,7 @@ class RecipeAdmin(admin.ModelAdmin):
     )
     def in_favorites(self, obj):
         """Fav Recipes count"""
-        return FavoriteRecipe.objects.filter(recipe=obj).count()
+        return obj.favorites.count()
 
 
 @admin.register(Tag)

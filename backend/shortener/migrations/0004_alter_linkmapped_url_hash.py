@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="linkmapped",
             name="url_hash",
             field=models.CharField(
-                default=shortener.models.generate_hash, max_length=15
+                default=shortener.models.gen_hash, max_length=15
             ),
         ),
     ]

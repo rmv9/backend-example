@@ -3,6 +3,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
+from api.shortener.serializers import ShortRecipeSerializer
 from users.models import Subscriber
 
 User = get_user_model()
@@ -69,9 +70,7 @@ class UserRecipeSerializer(UserSerializer):
         )
 
     def get_recipes(self, obj):
-        from api.recipes.serializers import ShortRecipeSerializer
-
-        request = self.context.get('request')
+        request = self.context['request']
         recipes = obj.recipes.all()
         try:
             recipes_limit = int(request.query_params.get('recipes_limit'))

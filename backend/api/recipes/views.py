@@ -74,16 +74,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 )
                 .annotate(
                     is_favorited=Exists(
-                        models.FavoriteRecipe.objects.filter(
-                            author=user.id,
-                            recipe=OuterRef('pk')
-                        )
+                        user.favorites.filter(recipe=OuterRef('pk'))
                     ),
                     is_in_shopping_cart=Exists(
-                        models.ShoppingCart.objects.filter(
-                            author=user.id,
-                            recipe=OuterRef('pk')
-                        )
+                        user.shopping_cart.filter(recipe=OuterRef('pk'))
                     ),
                 )
                 .all()
