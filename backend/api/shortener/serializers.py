@@ -5,7 +5,6 @@ from shortener.models import LinkMapped
 from recipes.models import Recipe
 
 
-
 class ShortenerSerializer(serializers.ModelSerializer):
     """Get short-link serializer."""
 
@@ -28,7 +27,7 @@ class ShortenerSerializer(serializers.ModelSerializer):
         return {
             'short-link': self.get_short_link(instance)
         }
-    
+
 
 class ShortRecipeSerializer(serializers.ModelSerializer):
     """Short data in recipes serializer."""

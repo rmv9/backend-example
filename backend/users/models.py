@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django_cleanup.cleanup import cleanup_select
 
 from core import abstract_models
-from users.constants import SHORT_NM, NAMES_MAX
+from users.constants import NAMES_MAX
 
 
 @cleanup_select
