@@ -23,7 +23,9 @@ class LinkMapped(models.Model):
         default=gen_hash,
         unique=True
     )
-    original_url = models.CharField(max_length=URL_LEN)
+    original_url = models.CharField(
+        max_length=URL_LEN
+    )
 
     class Meta:
         verbose_name = 'Ссылка'
