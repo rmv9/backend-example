@@ -1,14 +1,4 @@
-# Kittygram final
-
-### <b>Для ревью</b>
-Адрес: http://89.169.171.110/  
-
-Админ-зона: http://89.169.171.110/admin/  
-
-login - admin  
-password - admin  
-mail - admin@admin.com  
-
+# Kittygram final 
 
 ## Описание
 Foodgram - дипломный проект, является платформой для публикации своих рецептов. С его помощью можно создавать свои рецепты, публиковать их, а также добавлять в избранное рецепты других пользователей. Проект позволяет скачивать pdf список ингредиентов любого доступного рецепта.
@@ -56,6 +46,15 @@ sudo apt-get install docker-compose-plugin
 ```
 
 4. Копируем `docker-compose.production.yml` в корневую деректорию проекта.
+
+Чек-лист сервера:  
+- ```sudo apt -v```  
+- ```sudo docker -v```  
+- ```sudo ufv status```  
+- ```sudo nano /etc/nginx/sites-enabled/default```  
+в директории:  
+- .env  
+- docker-compose.productiom.yml  
 
 Сервер готов к деплою проекта.
 

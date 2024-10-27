@@ -15,11 +15,18 @@ class User(AbstractUser):
     first_name = models.CharField(_("first name"), max_length=NAMES_MAX)
     last_name = models.CharField(_("last name"), max_length=NAMES_MAX)
     avatar = models.ImageField(
-        'Аватар', upload_to='avatars/', blank=True, null=True
+        'Аватар',
+        upload_to='avatars/',
+        blank=True,
+        null=True
     )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
+    REQUIRED_FIELDS = [
+        'first_name',
+        'last_name',
+        'username'
+    ]
 
     class Meta:
         pass
@@ -29,7 +36,9 @@ class Subscriber(abstract_models.AuthorModel):
     """Subs model."""
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='subscriber'
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscriber'
     )
 
     class Meta:
@@ -38,7 +47,8 @@ class Subscriber(abstract_models.AuthorModel):
         verbose_name_plural = 'Подписки'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'], name='unique_subscriber'
+                fields=['user', 'author'],
+                name='unique_subscriber'
             ),
             models.CheckConstraint(
                 check=~models.Q(user=models.F('author')),

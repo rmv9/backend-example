@@ -96,7 +96,11 @@ def generate_pdf_file(ingredients, recipes, request):
     ).content.decode('utf-8')
     pdf = PDF()
     pdf.add_page()
-    pdf.set_font('Montserrat', 'I', size=I_MONTSERRAT_SIZE)
+    pdf.set_font(
+        'Montserrat',
+        'I',
+        size=I_MONTSERRAT_SIZE
+    )
     pdf.set_text_color(
         CL_BLACK['r'], CL_BLACK['g'], CL_BLACK['b']
     )
@@ -106,6 +110,10 @@ def generate_pdf_file(ingredients, recipes, request):
             recipe, align='L', border='B', new_x='LEFT', new_y='NEXT'
         )
     pdf.ln(PDF_LINE_FEED)
-    pdf.set_font('Montserrat', '', size=NONE_MONTSERRAT_SIZE)
+    pdf.set_font(
+        'Montserrat',
+        '',
+        size=NONE_MONTSERRAT_SIZE
+    )
     pdf_file = pdf.get_pdf(html)
     return pdf_file

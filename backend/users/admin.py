@@ -10,10 +10,24 @@ from .models import Subscriber, User
 class UsersAdmin(UserAdmin):
     """User admin site."""
 
-    list_display = ('id', 'full_name', 'username', 'email', 'is_staff')
-    search_fields = ('username', 'email')
+    list_display = (
+        'id',
+        'full_name',
+        'username',
+        'email',
+        'is_staff'
+    )
+    search_fields = (
+        'username',
+        'email'
+    )
     search_help_text = 'Поиск по `username` и `email`'
-    list_display_links = ('id', 'username', 'email', 'full_name')
+    list_display_links = (
+        'id',
+        'username',
+        'email',
+        'full_name'
+    )
 
     @admin.display(description='Имя фамилия')
     def full_name(self, obj):

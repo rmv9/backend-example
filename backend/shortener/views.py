@@ -9,6 +9,7 @@ from .models import LinkMapped
 def load_url(request, url_hash: str) -> HttpResponse:
     """Short -> original"""
     original_url = get_object_or_404(
-        LinkMapped, url_hash=url_hash
+        LinkMapped,
+        url_hash=url_hash
     ).original_url
     return redirect(original_url)

@@ -17,7 +17,11 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'slug')
+        fields = (
+            'id',
+            'name',
+            'slug'
+        )
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -25,7 +29,11 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ('id', 'name', 'measurement_unit')
+        fields = (
+            'id',
+            'name',
+            'measurement_unit'
+        )
 
 
 class IngredientGetSerializer(serializers.ModelSerializer):
@@ -43,14 +51,20 @@ class IngredientGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', 'name', 'measurement_unit', 'amount')
+        fields = (
+            'id',
+            'name',
+            'measurement_unit',
+            'amount'
+        )
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     """Short ingredient serializer."""
 
     id = serializers.PrimaryKeyRelatedField(
-        queryset=Ingredient.objects.all(), source='ingredient'
+        queryset=Ingredient.objects.all(),
+        source='ingredient'
     )
 
     amount = serializers.IntegerField(
@@ -63,7 +77,10 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', 'amount')
+        fields = (
+            'id',
+            'amount'
+        )
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -207,7 +224,10 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
         # FavoriteSerializer(AuthorRecipeSerializer)
         # ShoppingCartSerializer(AuthorRecipeSerializer)
         model = None
-        fields = ('author', 'recipe')
+        fields = (
+            'author',
+            'recipe'
+        )
         read_only_fields = ('author',)
 
     def validate(self, attrs):
@@ -223,7 +243,8 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return ShortRecipeSerializer(
-            instance.recipe, context=self.context
+            instance.recipe,
+            context=self.context
         ).data
 
 

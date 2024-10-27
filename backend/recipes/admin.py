@@ -40,7 +40,11 @@ class RecipeAdmin(admin.ModelAdmin):
             {
                 'fields': (
                     'author',
-                    ('name', 'cooking_time', 'in_favorites'),
+                    (
+                        'name',
+                        'cooking_time',
+                        'in_favorites'
+                    ),
                     'text',
                     'image',
                     'tags',
@@ -61,15 +65,26 @@ class RecipeAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     """Tags admin-zone"""
 
-    list_display = ('id', 'name', 'slug')
-    list_display_links = ('id', 'name', 'slug')
+    list_display = (
+        'id',
+        'name',
+        'slug'
+    )
+    list_display_links = (
+        'id',
+        'name',
+        'slug'
+        )
 
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     """Ingr admin-zone"""
 
-    list_display = ('name', 'measurement_unit')
+    list_display = (
+        'name',
+        'measurement_unit'
+    )
     list_display_links = ('name',)
     search_fields = ('name',)
     search_help_text = hlp_txt['search_ing_name']

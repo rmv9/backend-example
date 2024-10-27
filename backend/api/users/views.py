@@ -22,7 +22,10 @@ class UserViewSet(djoser_views.UserViewSet):
         if self.action in ('list', 'retrieve'):
             return (
                 User.objects.prefetch_related(
-                    Subscriber.get_prefetch_subscribers('subscribers', user),
+                    Subscriber.get_prefetch_subscribers(
+                        'subscribers',
+                        user
+                    ),
                 )
                 .order_by('id')
                 .all()
@@ -43,7 +46,10 @@ class UserViewSet(djoser_views.UserViewSet):
 
         if self.action in ('subscribe',):
             return User.objects.prefetch_related(
-                Subscriber.get_prefetch_subscribers('subscribers', user),
+                Subscriber.get_prefetch_subscribers(
+                    'subscribers',
+                    user
+                ),
             ).all()
 
         return User.objects.all()
@@ -108,12 +114,16 @@ class UserViewSet(djoser_views.UserViewSet):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
 
     @subscribe.mapping.delete
     def unsubscribe(self, request, id):
         subscriber_deleted, _ = Subscriber.objects.filter(
-            author=self.get_object(), user=request.user
+            author=self.get_object(),
+            user=request.user
         ).delete()
 
         if not subscriber_deleted:

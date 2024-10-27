@@ -93,7 +93,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def download_shopping_cart(self, request):
         """Shopping cart list."""
         recipes = request.user.shopping_cart.values_list(
-            'recipe__name', flat=True
+            'recipe__name',
+            flat=True
         ).order_by('recipe__name')
         ingredients = models.RecipeIngredient.get_shopping_ingredients(
             request.user
