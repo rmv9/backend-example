@@ -51,10 +51,8 @@ sudo apt-get install docker-compose-plugin
 - ```sudo apt -v```  
 - ```sudo docker -v```  
 - ```sudo ufv status```  
-- ```sudo nano /etc/nginx/sites-enabled/default```  
-в директории:  
-- .env  
-- docker-compose.productiom.yml  
+- ```sudo nano /etc/nginx/sites-enabled/default```    
+- ```ls foodgram/``` -> ```.env  docker-compose.productiom.yml```  
 
 Сервер готов к деплою проекта.
 
@@ -68,11 +66,19 @@ git push
 ```
 
 База данных проекта заполняется ингредиентами и тегами на этапе развертывания.  
+Скрипт в воркфлоу, отредактируйте для желаемых предзагрузок:  
+```
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py makemigrations
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --noinput
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py add_ingredients
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py add_tags
+```  
 
 После автоматического деплоя, на сервере необходимо добавить суперпользователя:  
 ```
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
-```  
+```
 
 Проект готов к использованию.
 
