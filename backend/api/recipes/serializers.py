@@ -220,9 +220,6 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
     _recipe_added_to: str = None
 
     class Meta:
-        # переопреляется в наследниках
-        # FavoriteSerializer(AuthorRecipeSerializer)
-        # ShoppingCartSerializer(AuthorRecipeSerializer)
         model = None
         fields = (
             'author',
@@ -234,7 +231,6 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
         recipe = attrs['recipe']
         user = self.context['request'].user
 
-        # Метод использует переопределенную модель.
         if self.Meta.model.objects.filter(author=user, recipe=recipe).exists():
             raise serializers.ValidationError(
                 f'Рецепт уже добавлен в {self._recipe_added_to}'
@@ -254,7 +250,6 @@ class FavoriteSerializer(AuthorRecipeSerializer):
     _recipe_added_to = 'избранное'
 
     class Meta(AuthorRecipeSerializer.Meta):
-        # переопределенная модель.
         model = FavoriteRecipe
 
 

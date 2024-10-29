@@ -1,5 +1,4 @@
 volumes:
-  
   staticfiles:
   mediafiles:
   pg_data:
