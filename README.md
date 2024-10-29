@@ -5,17 +5,17 @@
 
 ## **Технологии:**
 
-Django==4.2.11
-djangorestframework==3.15.1
-djoser==2.2.2
-psycopg2-binary==2.9.9
-Pillow==10.3.0
-django-cleanup==8.1.0
-django-filter==2.4.0
-gunicorn==21.2.0
-fpdf2==2.7.8
-uharfbuzz==0.39.1
-drf_extra_fields==3.7.0
+Django==4.2.11  
+djangorestframework==3.15.1  
+djoser==2.2.2  
+psycopg2-binary==2.9.9  
+Pillow==10.3.0  
+django-cleanup==8.1.0  
+django-filter==2.4.0  
+gunicorn==21.2.0  
+fpdf2==2.7.8  
+uharfbuzz==0.39.1  
+drf_extra_fields==3.7.0  
 
 ## Подготовка сервера
 На примере Linux сервера
@@ -50,7 +50,7 @@ sudo apt-get install docker-compose-plugin
 Чек-лист сервера:  
 - ```sudo apt -v```  
 - ```sudo docker -v```  
-- ```sudo ufv status```  
+- ```sudo ufw status```  
 - ```sudo nano /etc/nginx/sites-enabled/default```    
 - ```ls backend_diploma/``` -> ```.env  docker-compose.productiom.yml```  
 
